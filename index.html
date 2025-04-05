@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown Timer</title>
+  </head>
+  <body>
+    <input type="datetime-local" name="date" id="date" required />
+    <button onclick="handleclick()">Start Countdown</button>
+
+    <div id="show"></div>
+    <div>
+      <div>
+        Day:
+        <p id="day"></p>
+      </div>
+      <div>
+        Hour:
+        <p id="hour"></p>
+      </div>
+      <div>
+        Minute:
+        <p id="min"></p>
+      </div>
+      <div>
+        Second:
+        <p id="sec"></p>
+      </div>
+    </div>
+    <script>
+      function handleclick() {
+        // Get the value from the input field
+        let dateValue = document.getElementById("date").value;
+
+        // Create a new Date object from the input value
+        let inputDate = new Date(dateValue);
+
+        // Calculate the difference in milliseconds
+        let count = false;
+        const intervalId = setInterval(() => {
+          let currentDate = new Date();
+          let difference = inputDate - currentDate;
+          if (difference > 0) {
+            count = true;
+            let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            let hours = Math.floor(
+              (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            );
+            let minutes = Math.floor(
+              (difference % (1000 * 60 * 60)) / (1000 * 60)
+            );
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("day").innerText = days;
+            document.getElementById("hour").innerText = hours;
+            document.getElementById("min").innerText = minutes;
+            document.getElementById("sec").innerText = seconds;
+          } else {
+            clearInterval(intervalId);
+            count
+              ? (document.getElementById("show").innerText = "Times Up")
+              : (document.getElementById(
+                  "show"
+                ).innerText = `We can't go back to the past`);
+          }
+        }, 1000);         
+      }
+    </script>
+  </body>
+</html>
