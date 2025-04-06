@@ -4,45 +4,169 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Countdown Timer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: monospace;
+      }
+      main {
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 100px auto;
+        width: 400px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      main h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+      #countdown-form {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .set-countdown-timer {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      input,
+      #start-countdown-btn {
+        border: 1px solid black;
+        outline: none;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .set-countdown-timer input {
+        width: 80%;
+      }
+      #start-countdown-btn {
+        width: 20%;
+        background-color: #20ee20;
+        color: #000000;
+      }
+      .countdown-display {
+        padding: 10px;
+        border: 1px solid black;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+      .countdown-display > * {
+        /* border: 1px solid #cb5d5d; */
+        width: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      span {
+        height: 90%;
+      }
+      h4 {
+        margin-bottom: auto;
+        height: 10%;
+      }
+      .success-msg {
+        color: green;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
-    <input type="datetime-local" name="date" id="date" required />
-    <button onclick="handleclick()">Start Countdown</button>
+    <main>
+      <h1>Countdown Timer</h1>
+      <form id="countdown-form" onsubmit="addNewCounter(event);">
+        <div class="set-countdown-timer">
+          <input type="datetime-local" name="date" id="date" required />
+          <button type="submit" id="start-countdown-btn">Start</button>
+        </div>
+      </form>
 
-    <div id="show"></div>
-    <div>
-      <div>
-        Day:
-        <p id="day"></p>
-      </div>
-      <div>
-        Hour:
-        <p id="hour"></p>
-      </div>
-      <div>
-        Minute:
-        <p id="min"></p>
-      </div>
-      <div>
-        Second:
-        <p id="sec"></p>
-      </div>
-    </div>
+      <div id="show"></div>
+      <div id="countdown-container"></div>
+    </main>
     <script>
-      function handleclick() {
+      const dateInput = document.getElementById("date");
+      const now = new Date(); 
+
+      // Format the date to YYYY-MM-DDTHH:MM
+      const defaultDateTime = now.toISOString().slice(0, 16);
+      dateInput.value = defaultDateTime;
+      function formatTimeUnit(unit) {
+        return unit < 10 ? `0${unit}` : unit;
+      }
+
+      function addNewCounter(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
         // Get the value from the input field
         let dateValue = document.getElementById("date").value;
+        let showMsg = document.getElementById("show"); 
+        showMsg.innerText = "";
 
         // Create a new Date object from the input value
         let inputDate = new Date(dateValue);
+        // Calculate current date and difference
+        let currentDate = new Date();
+        let difference = inputDate - currentDate;
+
+        // Check if the input date is valid
+        if (isNaN(inputDate.getTime())) {
+          showMsg.innerText = "Please enter a valid date.";
+          return;
+        }
+
+        if (difference < 0) {
+          showMsg.innerText = "We can't go back to past";
+          return;
+        }
+
+        // Create a new countdown display
+        let newCountDown = document.createElement("div");
+        newCountDown.className = "countdown-display";
+
+        let successMsg = document.createElement("span");
+        successMsg.className = "success-msg";
+
+        // Create time units
+        let timeUnits = ["day", "hour", "minute", "second"];
+        timeUnits.forEach((unit) => {
+          let div = document.createElement("div");
+          let span = document.createElement("span");
+          let h4 = document.createElement("h4");
+          span.className = unit;
+          span.innerText = "00";
+          h4.innerText = unit.charAt(0).toUpperCase() + unit.slice(1);
+          div.appendChild(span);
+          div.appendChild(h4);
+          newCountDown.appendChild(div);
+          newCountDown.appendChild(successMsg);
+        });
+
+        // append new countdown to the container
+        document
+          .getElementById("countdown-container")
+          .appendChild(newCountDown);
 
         // Calculate the difference in milliseconds
-        let count = false;
         const intervalId = setInterval(() => {
           let currentDate = new Date();
           let difference = inputDate - currentDate;
+
           if (difference > 0) {
-            count = true;
             let days = Math.floor(difference / (1000 * 60 * 60 * 24));
             let hours = Math.floor(
               (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -52,19 +176,20 @@
             );
             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            document.getElementById("day").innerText = days;
-            document.getElementById("hour").innerText = hours;
-            document.getElementById("min").innerText = minutes;
-            document.getElementById("sec").innerText = seconds;
+            
+            // Update the countdown display
+            newCountDown.querySelector(".day").innerText = formatTimeUnit(days);
+            newCountDown.querySelector(".hour").innerText =
+              formatTimeUnit(hours);
+            newCountDown.querySelector(".minute").innerText =
+              formatTimeUnit(minutes);
+            newCountDown.querySelector(".second").innerText =
+              formatTimeUnit(seconds);
           } else {
             clearInterval(intervalId);
-            count
-              ? (document.getElementById("show").innerText = "Times Up")
-              : (document.getElementById(
-                  "show"
-                ).innerText = `We can't go back to the past`);
+            successMsg.innerText = "Time's Up!";
           }
-        }, 1000);         
+        }, 1000);
       }
     </script>
   </body>
