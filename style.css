@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: monospace;
+}
+main {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 100px auto;
+  width: 400px;
+  padding: 10px;
+  border-radius: 10px;
+}
+main h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+#countdown-form {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.set-countdown-timer {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.set-countdown-timer input,
+#start-countdown-btn {
+  border: 1px solid black;
+  outline: none;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+}
+.set-countdown-timer input {
+  width: 80%;
+}
+#start-countdown-btn {
+  width: 20%;
+  background-color: #20ee20;
+  color: #000000;
+}
+#countdown-container {
+  border: 1px solid black;
+  width: 100%;
+  padding: 10px;
+}
+.countdown-display {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  margin-bottom: 12px;
+  border: 1px solid #cb5d5d;
+  padding: 4px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.countdown-display .unit-display{ 
+  border-radius: 10px;
+  width: 15%;
+  height: 100%;
+  /* border: 1px solid red;  */
+
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.success-msg { 
+  width: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid green;  */
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+.wrapper {
+  position: relative;
+  width: 20px;
+  aspect-ratio: 1;
+  border-radius: 50%; 
+  background: blueviolet;
+  overflow: hidden;
+}
+
+.wrapper .pie {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  background: #000; 
+}
+
+.wrapper .spinner {
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  
+  transform-origin: 100% 50%;
+  z-index: 200;
+  border-right: none; 
+}
+
+.wrapper .filler {
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+  left: 50%;
+  z-index: 100;
+  border-left: none;
+  opacity: 0;
+}
+
+.wrapper .mask {
+  width: 50%;
+  height: 100%; 
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  position: absolute;
+  background: inherit;
+  opacity: 1;
+  z-index: 300;
+}
