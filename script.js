@@ -50,17 +50,17 @@ function addNewCounter(event) {
 
 function saveCountdownToLocalStorage(countdownData) {
     if (localStorage.getItem("stateArray")) {
-        let stateArray = JSON.parse(localStorage.getItem("stateArray"));
-        console.log('state array if: ', stateArray, countdownData)
+        let stateArray = JSON.parse(localStorage.getItem("stateArray")); 
         stateArray.push(countdownData);
         localStorage.setItem("stateArray", JSON.stringify(stateArray));
-    } else {
-        console.log('state array else: ', countdownData)
+    } else { 
         localStorage.setItem("stateArray", JSON.stringify([countdownData]));
     }
 }
 
 function deleteCoundownDisplay(countDownId, updateUi) {
+    // let countdownDisplay = document.querySelector('.countdown-display')
+    // let animationName =  window.getComputedStyle(countdownDisplay).animationName
     const data = JSON.parse(localStorage.getItem("stateArray"))
     let newStateArray = data.filter(
         (data) => data.id !== countDownId
@@ -69,6 +69,9 @@ function deleteCoundownDisplay(countDownId, updateUi) {
     if (updateUi) {
         document.getElementById('countdown-container').innerHTML = ''
         loadCountdownsFromLocalStorage();
+        
+        // countdownDisplay.style.animation = 'none';
+        // countdownDisplay.style.animation = animationName;
     }
 }
 
@@ -142,7 +145,7 @@ function createCountdownDisplay(currentCountdown) {
     const intervalId = setInterval(() => {
         let currentDate = new Date();
         let difference = inputDate - currentDate;
-        let percentage = parseFloat((difference / goal) * 100);
+        let percentage = parseFloat((difference / goal) * 100); 
 
         // Update the spinner rotation based on the percentage
         const rotation = - (percentage / 100) * 360;
@@ -167,7 +170,7 @@ function createCountdownDisplay(currentCountdown) {
                 (difference % (1000 * 60 * 60)) / (1000 * 60)
             );
             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
+ 
             // Update the countdown display
             countdownDisplay.querySelector(".day").innerText = formatTimeUnit(days);
             countdownDisplay.querySelector(".hour").innerText =
@@ -181,7 +184,8 @@ function createCountdownDisplay(currentCountdown) {
             deleteCoundownDisplay(currentCountdown.id, false);
             successMsg.innerText = "🎉";
         }
-    }, 1000);
+    }, 100);
+    
 }
 
 function loadCountdownsFromLocalStorage() {
