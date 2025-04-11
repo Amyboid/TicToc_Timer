@@ -15,9 +15,7 @@ main {
   gap: 30px;
   padding: 20px;
   overflow: scroll;
-  background: radial-gradient(circle, #fec25f 0%, #ffb13c 80%, #f49d23 100%);
-
-  border: 10px solid black;
+  background: radial-gradient(circle, #fec25f 0%, #ffb13c 80%, #f49d23 100%); 
 }
 
 header { 
