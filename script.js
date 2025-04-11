@@ -1,4 +1,5 @@
 
+
 const dateInput = document.getElementById("date");
 const now = new Date();
 
@@ -14,10 +15,9 @@ function addNewCounter(event) {
 
     // Get the value from the input field
     let dateValue = document.getElementById("date").value;
-    let showMsg = document.getElementById("show");
-    // let sshowMsgStyles = window.getComputedStyle(showMsg)
-    showMsg.style.opacity = 0
-    // console.log(dateValue);
+    let showMsg = document.getElementById("show"); 
+    showMsg.innerText = ''
+    showMsg.style.opacity = 0 
 
     // Create a new Date object from the input value
     let inputDate = new Date(dateValue);
@@ -32,8 +32,10 @@ function addNewCounter(event) {
     }
 
     if (difference < 0) {
-        // showMsg.innerText = "We can't go back to past";
-        showMsg.style.opacity = 1
+        showMsg.innerText = "We can't go back to past";
+        setTimeout(() => {
+            showMsg.style.opacity = 1
+        }, 200)
         return;
     }
 
@@ -45,33 +47,38 @@ function addNewCounter(event) {
     };
 
     saveCountdownToLocalStorage(countdownData);
+    if (document.getElementById('timer-status').innerText === 'No timer here') {
+
+        document.getElementById('timer-status').innerText = ''
+    }
+
     createCountdownDisplay(countdownData);
 }
 
 function saveCountdownToLocalStorage(countdownData) {
     if (localStorage.getItem("stateArray")) {
-        let stateArray = JSON.parse(localStorage.getItem("stateArray")); 
+        let stateArray = JSON.parse(localStorage.getItem("stateArray"));
         stateArray.push(countdownData);
         localStorage.setItem("stateArray", JSON.stringify(stateArray));
-    } else { 
+    } else {
         localStorage.setItem("stateArray", JSON.stringify([countdownData]));
     }
 }
 
 function deleteCoundownDisplay(countDownId, updateUi) {
-    // let countdownDisplay = document.querySelector('.countdown-display')
-    // let animationName =  window.getComputedStyle(countdownDisplay).animationName
     const data = JSON.parse(localStorage.getItem("stateArray"))
     let newStateArray = data.filter(
         (data) => data.id !== countDownId
     );
     localStorage.setItem("stateArray", JSON.stringify(newStateArray));
     if (updateUi) {
+        if (document.getElementById('timer-status').innerText === 'No timer here') {
+
+            document.getElementById('timer-status').innerText = ''
+        }
         document.getElementById('countdown-container').innerHTML = ''
         loadCountdownsFromLocalStorage();
-        
-        // countdownDisplay.style.animation = 'none';
-        // countdownDisplay.style.animation = animationName;
+
     }
 }
 
@@ -145,7 +152,7 @@ function createCountdownDisplay(currentCountdown) {
     const intervalId = setInterval(() => {
         let currentDate = new Date();
         let difference = inputDate - currentDate;
-        let percentage = parseFloat((difference / goal) * 100); 
+        let percentage = parseFloat((difference / goal) * 100);
 
         // Update the spinner rotation based on the percentage
         const rotation = - (percentage / 100) * 360;
@@ -170,7 +177,7 @@ function createCountdownDisplay(currentCountdown) {
                 (difference % (1000 * 60 * 60)) / (1000 * 60)
             );
             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
- 
+
             // Update the countdown display
             countdownDisplay.querySelector(".day").innerText = formatTimeUnit(days);
             countdownDisplay.querySelector(".hour").innerText =
@@ -185,17 +192,24 @@ function createCountdownDisplay(currentCountdown) {
             successMsg.innerText = "🎉";
         }
     }, 100);
-    
+
 }
 
 function loadCountdownsFromLocalStorage() {
-    let data = JSON.parse(localStorage.getItem("stateArray")) || []; 
+    let data = JSON.parse(localStorage.getItem("stateArray")) || [];
+    const timerStatus = document.getElementById('timer-status')
 
-    data.forEach((countdownData, index) => {
-        setTimeout(() => {
-            createCountdownDisplay(countdownData);
-        }, index * 200)
-    });
+    if (data.length !== 0) {
+        timerStatus.innerText = ''
+        data.forEach((countdownData, index) => {
+            setTimeout(() => {
+                createCountdownDisplay(countdownData);
+            }, index * 200)
+        });
+    }
+    else {
+        timerStatus.innerText = 'No timer here'
+    }
 }
 
 // Call the function to load countdowns when the page loads
