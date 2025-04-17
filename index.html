@@ -7,43 +7,50 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main>
-      <header>
-        <p>Tic-Toc Timer</p>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M12 4c6.928 0 11.258 7.5 7.794 13.5A9 9 0 0 1 12 22C5.072 22 .742 14.5 4.206 8.5A9 9 0 0 1 12 4"
-            class="duoicon-secondary-layer"
-            opacity=".1"
-          />
-          <path
-            fill="currentColor"
-            d="M7.366 2.971A1 1 0 0 1 7 4.337a10.1 10.1 0 0 0-2.729 2.316a1 1 0 1 1-1.544-1.27a12 12 0 0 1 3.271-2.777a1 1 0 0 1 1.367.365zM18 2.606a12 12 0 0 1 3.272 2.776a1 1 0 0 1-1.544 1.27a10 10 0 0 0-2.729-2.315a1 1 0 0 1 1.002-1.731zM12 8a1 1 0 0 0-.993.883L11 9v3.986c-.003.222.068.44.202.617l.09.104l2.106 2.105a1 1 0 0 0 1.498-1.32l-.084-.094L13 12.586V9a1 1 0 0 0-1-1"
-            class="duoicon-primary-layer"
-          />
-        </svg>
-      </header>
-      <form id="countdown-form" onsubmit="addNewCounter(event);">
-        <div class="set-countdown-timer">
-          <input type="datetime-local" name="date" id="date" required />
-          <button type="submit" aria-label="start" id="start-countdown-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                fill="currentColor"
-                d="M8 17.175V6.825q0-.425.3-.713t.7-.287q.125 0 .263.037t.262.113l8.15 5.175q.225.15.338.375t.112.475t-.112.475t-.338.375l-8.15 5.175q-.125.075-.262.113T9 18.175q-.4 0-.7-.288t-.3-.712"
-              />
-            </svg>
-          </button>
-        </div>
-      </form>
+    <section>
+      <div class="noise-moon">
+        <header>
+          <p>Tic-Toc Timer</p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              fill="#fff"
+              d="M12 4c6.928 0 11.258 7.5 7.794 13.5A9 9 0 0 1 12 22C5.072 22 .742 14.5 4.206 8.5A9 9 0 0 1 12 4"
+              class="duoicon-secondary-layer"
+              opacity=".5"
+            />
+            <path
+              fill="currentColor"
+              d="M7.366 2.971A1 1 0 0 1 7 4.337a10.1 10.1 0 0 0-2.729 2.316a1 1 0 1 1-1.544-1.27a12 12 0 0 1 3.271-2.777a1 1 0 0 1 1.367.365zM18 2.606a12 12 0 0 1 3.272 2.776a1 1 0 0 1-1.544 1.27a10 10 0 0 0-2.729-2.315a1 1 0 0 1 1.002-1.731zM12 8a1 1 0 0 0-.993.883L11 9v3.986c-.003.222.068.44.202.617l.09.104l2.106 2.105a1 1 0 0 0 1.498-1.32l-.084-.094L13 12.586V9a1 1 0 0 0-1-1"
+              class="duoicon-primary-layer"
+            />
+          </svg>
+        </header>
+        <form id="countdown-form" onsubmit="addNewCounter(event);">
+          <div class="set-countdown-timer">
+            <input type="datetime-local" name="date" id="date" required />
+            <button type="submit" aria-label="start" id="start-countdown-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M8 17.175V6.825q0-.425.3-.713t.7-.287q.125 0 .263.037t.262.113l8.15 5.175q.225.15.338.375t.112.475t-.112.475t-.338.375l-8.15 5.175q-.125.075-.262.113T9 18.175q-.4 0-.7-.288t-.3-.712"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
 
-      <div id="show">We can't go back to past</div>
-      <div id="countdowns">
-        <p id="timer-status">No timer here</p>
-        <div id="countdown-container"></div>
+        <div id="show">We can't go back to past</div>
+        <div id="countdowns">
+          <p id="timer-status">No timer here</p>
+          <div id="countdown-container"></div>
+        </div>
+        <div class="moon-outline">
+          <div class="moon"></div>
+          <div class="shadow-1"></div>
+          <div class="shadow-2"></div>
+        </div>
       </div>
-    </main>
+    </section>
 
     <script defer src="script.js"></script>
   </body>

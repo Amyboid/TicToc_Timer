@@ -6,7 +6,13 @@
   box-sizing: border-box;
   font-family: monospace;
 }
-main {
+section {
+  width: 100vw;
+  height: 100vh;
+  position: relative; 
+}
+
+.noise-moon {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -14,11 +20,67 @@ main {
   align-items: center;
   gap: 30px;
   padding: 20px;
+  padding-top: 50px;
   overflow: scroll;
-  background: radial-gradient(circle, #fec25f 0%, #ffb13c 80%, #f49d23 100%); 
+  filter: contrast(170%);
+  background: linear-gradient(180deg, #740abae7, #45024930), url(noise2.svg);
+  isolation: isolate;
 }
 
-header { 
+.moon-outline {
+  width: 150px;
+  aspect-ratio: 1;
+  position: absolute;
+  left: -80px;
+  top: 70%;
+  transform: translateY(-70%);
+  border-radius: 50%;
+  border: none;
+  transition: all 0.2s;
+  z-index: 20; 
+}
+.moon {
+  width: 100%;
+  aspect-ratio: 1;
+  position: absolute;
+  background-image: url(moon2.png);
+  background-size: cover;
+  background-position: center;
+  background-color: #a909999f;
+  background-blend-mode: hard-light;
+  box-shadow: 0px 0px 8px -2px #2a0126cf;
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.2s;
+}
+.shadow-1 {
+  width: 180px;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, #a909999f, #ffffff00), url(noise2.svg);
+  backdrop-filter: blur(12px);
+  border-radius: 50%;
+  z-index: 5;
+  transition: all 0.2s;
+}
+.shadow-2 {
+  width: 210px;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, #6909a9a9, #ffffff00), url(noise2.svg);
+  backdrop-filter: blur(12px);
+  border-radius: 50%;
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+header {
   width: 100%;
   min-width: 300px;
   display: flex;
@@ -32,6 +94,7 @@ header p {
   letter-spacing: 2px;
   font-family: "Doto", sans-serif;
   font-weight: bolder;
+  color: #ffffffae;
 }
 header svg {
   width: 40px;
@@ -49,7 +112,7 @@ header svg {
   display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .set-countdown-timer input {
@@ -58,8 +121,8 @@ header svg {
   border: none;
   font-size: 1.2rem;
   padding: 10px;
-  border-radius: 10px;
-  background: radial-gradient(#fcb237 0%, #f29e21 100%);
+  border-radius: 10px; 
+  background: linear-gradient(180deg, #dccfdb8e, #ffffff00), url(noise2.svg);
   box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.758);
 }
 #start-countdown-btn {
@@ -79,7 +142,7 @@ header svg {
 }
 #start-countdown-btn svg {
   width: 20px;
-  color: orange;
+  color: plum;
 }
 #show {
   width: 100%;
@@ -89,7 +152,7 @@ header svg {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.2s;
-  color: rgb(255, 255, 255);
+  color: #ffffffd2;
   font-family: "Doto", sans-serif;
   font-weight: bolder;
   font-size: 1.2rem;
@@ -100,9 +163,11 @@ header svg {
   position: relative;
   width: 100%;
   height: 100%;
-  min-width: 300px; 
+  min-width: 300px;
+  z-index: 100;
 }
 #countdown-container {
+  z-index: 100;
   width: 100%;
   height: 100%;
   display: flex;
@@ -120,18 +185,17 @@ header svg {
   top: 20%;
   left: 50%;
   transform: translate(-50%, -20%);
-  color: white;
+  color: #ffffffae;
   font-family: "Doto", sans-serif;
   font-weight: bold;
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
 }
 .countdown-display {
   width: 100%;
-  height: 100px; 
-  border-radius: 10px;
-
+  height: 100px;
+  border-radius: 10px; 
   box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.758);
-  animation: entry 0.2s ease-in-out; 
+  animation: entry 0.2s ease-in-out;
 }
 @keyframes entry {
   0% {
@@ -148,8 +212,8 @@ header svg {
   border-radius: 10px;
   padding: 5px;
   display: flex;
-  align-items: center; 
-  background: linear-gradient(5deg, #000000, #152e2f83), url(noise.svg); 
+  align-items: center;
+  background: linear-gradient(5deg, #000000, #152e2f83), url(noise.svg);
   filter: contrast(170%);
 }
 
@@ -170,7 +234,7 @@ header svg {
   width: 100%;
   text-align: center;
   font-family: "Doto", sans-serif;
-  font-size: 1.1rem; 
+  font-size: 1.1rem;
 }
 .unit-display span {
   height: 50px;
@@ -252,12 +316,27 @@ header svg {
 }
 
 @media only screen and (min-width: 640px) {
-  header { 
+  .moon {
+    box-shadow: 0px 0px 16px -4px #2a0126e4;
+  }
+  .moon-outline {
+    width: 200px;
+    left: -50px;
+  }
+
+  .shadow-1 {
+    width: 240px;
+  }
+  .shadow-2 {
+    width: 280px;
+  }
+  
+  header {
     width: 50%;
     min-width: 600px;
   }
   header p {
-    font-size: 3rem; 
+    font-size: 3rem;
   }
   header svg {
     width: 50px;
@@ -269,7 +348,7 @@ header svg {
   }
   .set-countdown-timer {
     width: 100%;
-    gap: 20px; 
+    gap: 20px;
   }
 
   .set-countdown-timer input {
@@ -281,8 +360,7 @@ header svg {
     width: 40px;
   }
   #start-countdown-btn svg {
-    width: 30px;
-    color: orange;
+    width: 30px; 
   }
   #show {
     width: 100%;
