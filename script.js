@@ -15,9 +15,11 @@ function addNewCounter(event) {
 
     // Get the value from the input field
     let dateValue = document.getElementById("date").value;
-    let showMsg = document.getElementById("show"); 
+
+
+    let showMsg = document.getElementById("show");
     showMsg.innerText = ''
-    showMsg.style.opacity = 0 
+    showMsg.style.opacity = 0
 
     // Create a new Date object from the input value
     let inputDate = new Date(dateValue);
@@ -39,11 +41,26 @@ function addNewCounter(event) {
         return;
     }
 
+
+    let [datePart, timePart] = dateValue.split('T');
+    let [year, month, day] = datePart.split('-');
+    let [hours, minutes] = timePart.split(':');
+
+    let formattedDate = `${String(day)}/${String(month)}/${String(year).slice(-2)}`;
+
+    // +hour is equivalent to Number(hour)
+    let ampm = +hours >= 12 ? 'PM' : 'AM';
+    hours = (+hours % 12) || 12;
+    let formattedTime = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
+
+    let alarm = `${formattedDate}, ${formattedTime}`;
+
     let countdownId = Date.now();
     let countdownData = {
         id: countdownId,
         inputDate: dateValue,
         goal: difference,
+        alarm: alarm
     };
 
     saveCountdownToLocalStorage(countdownData);
@@ -66,19 +83,23 @@ function saveCountdownToLocalStorage(countdownData) {
 }
 
 function deleteCoundownDisplay(countDownId, updateUi) {
-    const data = JSON.parse(localStorage.getItem("stateArray"))
-    let newStateArray = data.filter(
-        (data) => data.id !== countDownId
-    );
+    const data = JSON.parse(localStorage.getItem("stateArray"));
+    let newStateArray = data.filter((data) => data.id !== countDownId);
     localStorage.setItem("stateArray", JSON.stringify(newStateArray));
-    if (updateUi) {
-        if (document.getElementById('timer-status').innerText === 'No timer here') {
 
-            document.getElementById('timer-status').innerText = ''
+    // Directly remove the countdown display from the UI
+    const countdownDisplay = document.querySelector(`.countdown-display[data-id="${countDownId}"]`);
+    console.log(countdownDisplay);
+
+    if (countdownDisplay) {
+        if (updateUi) {
+            countdownDisplay.remove();
         }
-        document.getElementById('countdown-container').innerHTML = ''
-        loadCountdownsFromLocalStorage();
+    }
 
+    // Update the timer status if there are no countdowns left
+    if (newStateArray.length === 0) {
+        document.getElementById('timer-status').innerText = 'No timer here';
     }
 }
 
@@ -88,12 +109,19 @@ function createCountdownDisplay(currentCountdown) {
 
     // Create a new countdown display with noise
     let countdownDisplay = document.createElement("div");
+    countdownDisplay.setAttribute("data-id", currentCountdown.id);
     let noise = document.createElement("div");
+    let alarm = document.createElement("span");
 
-    countdownDisplay.className = "countdown-display";
+    countdownDisplay.className = "countdown-display entry";
     noise.className = 'noise';
+    alarm.className = "alarm";
 
     countdownDisplay.appendChild(noise);
+
+    alarm.innerText = currentCountdown.alarm;
+    noise.appendChild(alarm);
+
     let successMsg = document.createElement("div");
     // creating pie spinner markup
     let wrapper = document.createElement("div");
@@ -195,7 +223,7 @@ function createCountdownDisplay(currentCountdown) {
 
 }
 
-function loadCountdownsFromLocalStorage() {
+function loadCountdownsFromLocalStorage(animation) {
     let data = JSON.parse(localStorage.getItem("stateArray")) || [];
     const timerStatus = document.getElementById('timer-status')
 
@@ -214,5 +242,5 @@ function loadCountdownsFromLocalStorage() {
 
 // Call the function to load countdowns when the page loads
 window.onload = () => {
-    loadCountdownsFromLocalStorage();
+    loadCountdownsFromLocalStorage(true);
 };

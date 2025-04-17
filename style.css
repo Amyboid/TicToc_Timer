@@ -36,7 +36,7 @@ section {
   transform: translateY(-70%);
   border-radius: 50%;
   border: none;
-  transition: all 0.2s;
+  transition: all 0.1s;
   z-index: 20; 
 }
 .moon {
@@ -51,7 +51,7 @@ section {
   box-shadow: 0px 0px 8px -2px #2a0126cf;
   border-radius: 50%;
   z-index: 10;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 .shadow-1 {
   width: 180px;
@@ -60,11 +60,11 @@ section {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, #a909999f, #ffffff00), url(noise2.svg);
+  background: linear-gradient(90deg, #a909996a, #ffffff00), url(noise2.svg);
   backdrop-filter: blur(12px);
   border-radius: 50%;
   z-index: 5;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 .shadow-2 {
   width: 210px;
@@ -73,11 +73,11 @@ section {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, #6909a9a9, #ffffff00), url(noise2.svg);
+  background: linear-gradient(90deg, #6909a97b, #ffffff00), url(noise2.svg);
   backdrop-filter: blur(12px);
   border-radius: 50%;
   z-index: 1;
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 
 header {
@@ -192,14 +192,16 @@ header svg {
 }
 .countdown-display {
   width: 100%;
-  height: 100px;
+  height: 140px;
   border-radius: 10px; 
   box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.758);
+}
+.entry{
   animation: entry 0.2s ease-in-out;
 }
 @keyframes entry {
   0% {
-    transform: translate(-100px, 50px);
+    transform: translate(-60px, 50px);
   }
   100% {
     transform: translate(0);
@@ -211,12 +213,21 @@ header svg {
   height: 100%;
   border-radius: 10px;
   padding: 5px;
+  padding-top: 40px;
   display: flex;
   align-items: center;
   background: linear-gradient(5deg, #2e0132e8, #23152f83), url(noise.svg);
   filter: contrast(170%);
+  position: relative;
 }
-
+.alarm{
+  position: absolute;
+  top: 0;
+  color: #ffffffaa;
+  padding: 15px;
+  font-size: 1rem;
+  font-family: "Doto", sans-serif;
+}
 .unit-display {
   width: 20%;
   height: 100%;
@@ -225,7 +236,7 @@ header svg {
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  color: #ffffff;
+  color: #ffffffaa;
   overflow: hidden;
   padding: 10px 0;
 }
@@ -279,7 +290,7 @@ header svg {
   width: 40px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: wheat;
+  background: plum;
   overflow: hidden;
 }
 
@@ -287,7 +298,7 @@ header svg {
   width: 50%;
   height: 100%;
   position: absolute;
-  background: #090124;
+  background: rgb(39, 1, 39);
 }
 
 .wrapper .spinner {
@@ -321,15 +332,15 @@ header svg {
     box-shadow: 0px 0px 16px -4px #2a0126e4;
   }
   .moon-outline {
-    width: 200px;
+    width: 220px;
     left: -50px;
   }
 
   .shadow-1 {
-    width: 240px;
+    width: 260px;
   }
   .shadow-2 {
-    width: 280px;
+    width: 300px;
   }
   
   header {
@@ -389,5 +400,24 @@ header svg {
   .unit-display span {
     padding: 8px;
     font-size: 1.8rem; 
+  }
+  .alarm{
+    padding: 15px;
+    font-size: 1.2rem; 
+
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .moon-outline {
+    width: 300px;
+    left: -100px;
+  }
+
+  .shadow-1 {
+    width: 350px;
+  }
+  .shadow-2 {
+    width: 400px;
   }
 }
