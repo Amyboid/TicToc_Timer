@@ -213,7 +213,7 @@ header svg {
   padding: 5px;
   display: flex;
   align-items: center;
-  background: linear-gradient(5deg, #000000, #152e2f83), url(noise.svg);
+  background: linear-gradient(5deg, #2e0132e8, #23152f83), url(noise.svg);
   filter: contrast(170%);
 }
 
@@ -234,11 +234,11 @@ header svg {
   width: 100%;
   text-align: center;
   font-family: "Doto", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 .unit-display span {
   height: 50px;
-  padding: 6px;
+  padding: 10px;
   display: flex;
   text-align: center;
   align-items: center;
@@ -246,7 +246,7 @@ header svg {
   border-radius: 5px;
   background-color: #ffffff3e;
   font-family: "Doto", sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: wheat;
   letter-spacing: 2px;
@@ -271,6 +271,7 @@ header svg {
   justify-content: center;
   background-color: #b56d08;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -380,5 +381,13 @@ header svg {
 
   #timer-status {
     font-size: 2rem;
+  }
+
+  .unit-display h4 { 
+    font-size: 1.2rem;
+  }
+  .unit-display span {
+    padding: 8px;
+    font-size: 1.8rem; 
   }
 }
