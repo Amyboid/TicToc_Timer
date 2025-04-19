@@ -1,4 +1,29 @@
+let enableNotification = document.getElementById("unmute") 
+let currentAudio = null
 
+Notification.requestPermission().then((result) => {
+    if (result == "default" || result == "denied") {
+        enableNotification.style.display = 'block';
+    }
+    else {
+        enableNotification.style.display = 'none';
+    }
+});
+
+function handleMute() {
+    if (!("Notification" in window)) {
+        console.log("This browser does not support notifications.");
+        return;
+    }
+    Notification.requestPermission().then((permission) => {
+        // set the button to shown or hidden, depending on what the user answers
+        enableNotification.style.display = permission === "granted" ? "none" : "block";
+    });
+}
+
+
+
+let playing = false;
 
 const dateInput = document.getElementById("date");
 const now = new Date();
@@ -29,11 +54,15 @@ function addNewCounter(event) {
 
     // Check if the input date is valid
     if (isNaN(inputDate.getTime())) {
+
+        playWarning();
         showMsg.innerText = "Please enter a valid date.";
         return;
     }
 
     if (difference < 0) {
+
+        playWarning();
         showMsg.innerText = "We can't go back to past";
         setTimeout(() => {
             showMsg.style.opacity = 1
@@ -82,21 +111,23 @@ function saveCountdownToLocalStorage(countdownData) {
     }
 }
 
-function deleteCoundownDisplay(countDownId, updateUi) {
+function deleteCoundownDisplay(countDownId, updateUi ,intervalId) {
+    clearInterval(intervalId);
     const data = JSON.parse(localStorage.getItem("stateArray"));
+    const deletedCountdown = data.filter((data) => data.id === countDownId);
+    let msg = `${deletedCountdown[0].alarm} alarm deleted`
     let newStateArray = data.filter((data) => data.id !== countDownId);
     localStorage.setItem("stateArray", JSON.stringify(newStateArray));
 
     // Directly remove the countdown display from the UI
     const countdownDisplay = document.querySelector(`.countdown-display[data-id="${countDownId}"]`);
-    console.log(countdownDisplay);
 
     if (countdownDisplay) {
         if (updateUi) {
+            sendNotification(msg, false);
             countdownDisplay.remove();
         }
     }
-
     // Update the timer status if there are no countdowns left
     if (newStateArray.length === 0) {
         document.getElementById('timer-status').innerText = 'No timer here';
@@ -144,7 +175,6 @@ function createCountdownDisplay(currentCountdown) {
 
     let deleteDisplayButton = document.createElement("button")
     deleteDisplayButton.innerHTML = deleteIcon;
-    deleteDisplayButton.addEventListener('click', () => deleteCoundownDisplay(currentCountdown.id, true));
     deleteDisplayButton.className = 'delete-display-btn'
 
     successMsg.appendChild(wrapper);
@@ -185,9 +215,7 @@ function createCountdownDisplay(currentCountdown) {
         // Update the spinner rotation based on the percentage
         const rotation = - (percentage / 100) * 360;
         let maskStyle = window.getComputedStyle(mask)
-        // console.log(maskStyle.opacity, typeof(maskStyle.opacity))
         if (rotation > -180 && parseInt(maskStyle.opacity) === 1) {
-            console.log(rotation);
             // remove the mask
             mask.style.opacity = 0
             // add the filler
@@ -215,14 +243,65 @@ function createCountdownDisplay(currentCountdown) {
             countdownDisplay.querySelector(".second").innerText =
                 formatTimeUnit(seconds);
         } else {
-            clearInterval(intervalId);
-            deleteCoundownDisplay(currentCountdown.id, false);
+            console.log("called");
+            deleteCoundownDisplay(currentCountdown.id, false, intervalId);
             successMsg.innerText = "🎉";
+            let msg = `${currentCountdown.alarm} alarm`;
+            sendNotification(msg,true);
+
         }
     }, 100);
 
+    deleteDisplayButton.addEventListener('click', () => deleteCoundownDisplay(currentCountdown.id, true, intervalId));
+
 }
 
+function sendNotification(msg, play) {
+    if (!("Notification" in window)) {
+        // Check if the browser supports notifications
+        alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+        // Check whether notification permissions have already been granted;
+        // if so, create a notification
+        createNotification(msg, play);
+
+    } else if (Notification.permission !== "denied") {
+        // We need to ask the user for permission
+        Notification.requestPermission().then((permission) => {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+                createNotification(msg, play);
+            }
+        });
+    }
+}
+function createNotification(msg, play) {
+    const notification = new Notification(msg);
+    if (play) {
+        playAudio();
+    }
+}
+
+function playAudio() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    currentAudio = new Audio('done.mp3');
+    currentAudio.play().catch((error) => {
+        console.error("Error playing audio:", error);
+
+    });
+
+}
+
+
+
+function playWarning() {
+    var audio = new Audio('warning.mp3');
+    audio.play();
+
+}
 function loadCountdownsFromLocalStorage(animation) {
     let data = JSON.parse(localStorage.getItem("stateArray")) || [];
     const timerStatus = document.getElementById('timer-status')
