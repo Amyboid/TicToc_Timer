@@ -12,10 +12,45 @@ section {
   position: relative;
 }
 
-.noise-moon::-webkit-scrollbar,#countdown-container::-webkit-scrollbar {
-  display: none;
+.toast {
+  padding: 10px;
+  width: 150px;
+  height: 40px; 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  text-align: center;
+  outline: none;
+  border: none;
+  font-size: 0.9rem; 
+  font-family: "Doto", sans-serif;
+  font-weight: bolder; 
+  border-radius: 10px;
+  background: linear-gradient(180deg, #dccfdb8e, #ffffff00), url(noise2.svg);  
+  color: #000000;
+  filter: contrast(170%);
+  box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.758); 
+  position: absolute;
+  left: 50%;
+  top: 10px; 
+  transform: translateX(-50%);
+  animation: toast 0.5s, toast 0.5s 2.5s reverse; 
 }
 
+@keyframes toast {
+  from {
+    top: -100px;
+  }
+  to{
+    right: 10px;
+  }
+  
+}
+
+.noise-moon::-webkit-scrollbar,
+#countdown-container::-webkit-scrollbar {
+  display: none;
+}
 
 .noise-moon {
   width: 100vw;
@@ -29,7 +64,7 @@ section {
   overflow-y: scroll;
   filter: contrast(170%);
   background: linear-gradient(180deg, #740abae7, #45024930), url(noise2.svg);
-  isolation: isolate; 
+  isolation: isolate;
 }
 
 .moon-outline {
@@ -102,7 +137,7 @@ header p {
   font-weight: bolder;
   color: #ffffffae;
 }
-.allow-notification { 
+.allow-notification {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -344,6 +379,28 @@ header svg {
 }
 
 @media only screen and (min-width: 640px) {
+  .toast {
+    top: unset;
+    left: unset;
+    transform: unset;
+    width: 300px;
+    height: 50px; 
+    right: 20px;
+    bottom: 20px; 
+    font-size: 1.1rem;
+    animation: toast 0.5s, toast 0.5s 2.5s reverse; 
+  }
+  
+  @keyframes toast {
+    from {
+      right: -200px;
+    }
+    to{
+      right: 20px;
+    }
+    
+  }
+
   .moon {
     box-shadow: 0px 0px 16px -4px #2a0126e4;
   }
@@ -369,8 +426,8 @@ header svg {
   header svg {
     width: 50px;
   }
-  
-  #un-mute{
+
+  #un-mute {
     display: none;
   }
   #countdown-form {
@@ -427,6 +484,14 @@ header svg {
 }
 
 @media only screen and (min-width: 768px) {
+  .toast {
+    width: 325px;
+    height: 50px;
+    right: 20px;
+    bottom: 20px; 
+    font-size: 1.2rem; 
+    animation: toast 0.5s, toast 0.5s 2.5s reverse; 
+  }
   .moon-outline {
     width: 300px;
     left: -100px;

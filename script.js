@@ -125,13 +125,26 @@ function deleteCoundownDisplay(countDownId, updateUi ,intervalId) {
     if (countdownDisplay) {
         if (updateUi) {
             countdownDisplay.remove();
-            sendNotification(msg, false);
+            addToast(msg) 
         }
     }
     // Update the timer status if there are no countdowns left
     if (newStateArray.length === 0) {
         document.getElementById('timer-status').innerText = 'No timer here';
     }
+}
+
+function addToast(msg){
+    
+    let mainSection = document.getElementById('main-section');
+    let toast = document.createElement('div');
+    console.log(msg,mainSection);
+    toast.className = 'toast'
+    toast.innerHTML = msg
+    mainSection.appendChild(toast)
+    setTimeout(()=>{
+        toast.remove()
+    },2950)
 }
 
 function createCountdownDisplay(currentCountdown) {
@@ -247,6 +260,7 @@ function createCountdownDisplay(currentCountdown) {
             deleteCoundownDisplay(currentCountdown.id, false, intervalId);
             successMsg.innerText = "🎉";
             let msg = `${currentCountdown.alarm} alarm`;
+            addToast(msg)
             sendNotification(msg,true);
 
         }
