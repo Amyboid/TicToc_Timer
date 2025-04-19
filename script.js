@@ -124,8 +124,8 @@ function deleteCoundownDisplay(countDownId, updateUi ,intervalId) {
 
     if (countdownDisplay) {
         if (updateUi) {
-            sendNotification(msg, false);
             countdownDisplay.remove();
+            sendNotification(msg, false);
         }
     }
     // Update the timer status if there are no countdowns left
@@ -259,7 +259,7 @@ function createCountdownDisplay(currentCountdown) {
 function sendNotification(msg, play) {
     if (!("Notification" in window)) {
         // Check if the browser supports notifications
-        alert("This browser does not support desktop notification");
+        alert("This browser does not support notification");
     } else if (Notification.permission === "granted") {
         // Check whether notification permissions have already been granted;
         // if so, create a notification
@@ -299,7 +299,7 @@ function playAudio() {
 
 function playWarning() {
     var audio = new Audio('warning.mp3');
-    audio.volume = 0.3
+    audio.volume = 0.1
     audio.play().catch((error) => {
         console.error("Error playing audio:", error);
     });;
