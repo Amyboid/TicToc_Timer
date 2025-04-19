@@ -299,7 +299,10 @@ function playAudio() {
 
 function playWarning() {
     var audio = new Audio('warning.mp3');
-    audio.play();
+    audio.volume = 0.3
+    audio.play().catch((error) => {
+        console.error("Error playing audio:", error);
+    });;
 
 }
 function loadCountdownsFromLocalStorage(animation) {
