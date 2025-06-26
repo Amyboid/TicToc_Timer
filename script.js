@@ -144,7 +144,7 @@ function addToast(msg){
     mainSection.appendChild(toast)
     setTimeout(()=>{
         toast.remove()
-    },2950)
+    },2850)
 }
 
 function createCountdownDisplay(currentCountdown) {
